@@ -1,0 +1,110 @@
+{{ partial "header.html" . }}
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+                <header id="header">
+                    <div class="logo">
+                        <a href="/">
+                            <span class="icon">
+                                <img src="{{ .Params.logo }}">
+                            </span>
+                        </a>
+                    </div>
+                    <div class="content">
+                        <div class="inner" style='display:flex'>
+                            <h1>{{ .Title | default "Title" }}</h1><br>
+<!--                             {{ if .Params.description }} -->
+                            <p class="header-sub-title" id="word">
+<!--                                 {{ .Params.description }} -->
+                            </p><p class="header-sub-title blink">|</p>
+<!--                             {{ end }} -->
+                        </div>
+                    </div>
+                    <nav>
+                        <ul>
+                            {{ range .Pages.ByDate }}
+                                {{if .Title }}
+                                    {{if .Content}}
+                                        <li>
+                                            <a href="#{{ cond (in (.Title|urlize) "%") (.Title | base64Encode) (.Title) | urlize }}">{{ .Title }}</a>
+                                        </li>
+                                    {{ else }}
+                                        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                    {{ end }}
+                                {{ end }}
+                            {{ end }}
+                        </ul>
+                    </nav>
+                </header>
+
+            <!-- Main -->
+                <div id="main">
+
+                    {{ range .Pages }}
+                        {{if .Title }}
+                            {{if .Content }}
+                                <article id="{{ cond (in (.Title|urlize) "%") (.Title | base64Encode) (.Title) | urlize }}">
+                                    <h2 class="major">{{ .Title }}</h2>
+                                    <span class="image main"><img src="{{ .Params.image }}" alt="" /></span>
+                                    {{ .Content }}
+                                </article>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+
+                </div>
+
+                {{ partial "design.html" .}}
+
+        </div>
+
+    <!-- BG -->
+    <div id="bg"></div>
+    <script type="text/javascript">
+const words = ["CSS3.", "HTML5.", "javascript."];
+let i = 0;
+let timer;
+
+function typingEffect() {
+    let word = words[i].split("");
+    var loopTyping = function() {
+        if (word.length > 0) {
+            document.getElementById('word').innerHTML += word.shift();
+        } else {
+            deletingEffect();
+            return false;
+        };
+        timer = setTimeout(loopTyping, 500);
+    };
+    loopTyping();
+};
+
+function deletingEffect() {
+    let word = words[i].split("");
+    var loopDeleting = function() {
+        if (word.length > 0) {
+            word.pop();
+            document.getElementById('word').innerHTML = word.join("");
+        } else {
+            if (words.length > (i + 1)) {
+                i++;
+            } else {
+                i = 0;
+            };
+            typingEffect();
+            return false;
+        };
+        timer = setTimeout(loopDeleting, 200);
+    };
+    loopDeleting();
+};
+
+typingEffect();
+</script>
+</body>
+
+{{ partial "footer.html" .}}
