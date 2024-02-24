@@ -1,4 +1,3 @@
-https://github.com/hy24k/hy24k.github.io.git# Sample workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
 
 on:
